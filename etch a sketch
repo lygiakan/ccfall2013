@@ -1,0 +1,48 @@
+import processing.serial.*;
+import cc.arduino.*;
+PImage img;
+Arduino arduino;
+int pot1 = 0, pot2 = 1;
+int min1 = 0, min2 = 0, max1 = 1023, max2 = 1023;
+int border = 90;
+int x, y, x2, y2;
+
+
+
+void setup()
+{
+  size(1350, 715);
+  background(250, 0, 70);
+ 
+  x2 = border + int(((width - 2 * border) * 1.0 / max1) * arduino.analogRead(pot1));
+  y2 = border + int(((height - 2 * border) * (1 - 1.0 * arduino.analogRead(pot2) / max2)));
+  fill(230); 
+  noStroke();
+  rect(border, border, width - 2 * border, height - 2 * border);
+  stroke(1);
+
+  img = loadImage("etch.png");
+  // ellipse(50, 650, 60, 60);
+  // noStroke();
+  // smooth();
+}
+
+void draw()
+{
+  image(img, 475, 10);
+  x = border + int(((width - 2 * border) * 1.0 / max1) * arduino.analogRead(pot1));
+  y = border + int(((height - 2 * border) * (1 - 1.0 * arduino.analogRead(pot2) / max2)));
+  line(x2, y2, x, y);
+
+  x2 = x;
+  y2 = y;
+
+
+  if (keyPressed == true) {
+
+    fill(230); 
+    noStroke();
+    rect(border, border, width - 2 * border, height - 2 * border);
+    stroke(1);
+  }
+}
